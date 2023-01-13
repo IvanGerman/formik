@@ -52,11 +52,12 @@ const SignupForm1 = () => {
         name="firstName"
         type="text"
         onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
         value={formik.values.firstName}
         placeholder="Steven"
       />
       <br/><br/>
-      {formik.errors.firstName ? <div>{formik.errors.firstName}</div> : null}
+      {formik.touched.firstName && formik.errors.firstName ? <div>{formik.errors.firstName}</div> : null}
 
       <label htmlFor="lastName">Last Name</label>
       <input
@@ -64,11 +65,12 @@ const SignupForm1 = () => {
         name="lastName"
         type="text"
         onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
         value={formik.values.lastName}
         placeholder="Seagal"
       />
       <br/><br/>
-      {formik.errors.lastName ? <div>{formik.errors.lastName}</div> : null}
+      {formik.touched.lastName && formik.errors.lastName ? <div>{formik.errors.lastName}</div> : null}
 
       <label htmlFor="email">Email Address</label>
       <input
@@ -76,14 +78,12 @@ const SignupForm1 = () => {
         name="email"
         type="email"
         onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
         value={formik.values.email}
         placeholder="StevenSeagal@gmail.com"
       />
       <br/><br/>
-      {formik.errors.email ? <div>{formik.errors.email}</div> : null}
-      if (formik.errors.email) {
-        console.log('formik.errors.email---',formik.errors.email) 
-      }
+      {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
       
       <button type="submit">Submit</button>
     </form>
