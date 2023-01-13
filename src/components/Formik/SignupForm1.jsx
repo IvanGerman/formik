@@ -1,6 +1,31 @@
 import React from 'react';
 import { useFormik } from 'formik';
  
+
+const validate = values => {
+  const errors = {};
+  if (!values.firstName) {
+    errors.firstName = 'Required';
+  } else if (values.firstName.length > 15) {
+    errors.firstName = 'Must be 15 characters or less';
+  }
+
+  if (!values.lastName) {
+    errors.lastName = 'Required';
+  } else if (values.lastName.length > 20) {
+    errors.lastName = 'Must be 20 characters or less';
+  }
+
+  if (!values.email) {
+    errors.email = 'Required';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Invalid email address';
+  }
+
+  return errors;
+};
+
+
 const SignupForm1 = () => {
   // Note that we have to initialize ALL of fields with values. These
   // could come from props, but since we don’t want to prefill this form,
@@ -12,6 +37,7 @@ const SignupForm1 = () => {
       lastName: '',
       email: '',
     },
+    validate,
     onSubmit: values => {
       console.log('form values----',values);
       alert(JSON.stringify(values, null, 2));
@@ -30,6 +56,8 @@ const SignupForm1 = () => {
         placeholder="Steven"
       />
       <br/><br/>
+      {formik.errors.firstName ? <div>{formik.errors.firstName}</div> : null}
+
       <label htmlFor="lastName">Last Name</label>
       <input
         id="lastName"
@@ -40,6 +68,8 @@ const SignupForm1 = () => {
         placeholder="Seagal"
       />
       <br/><br/>
+      {formik.errors.lastName ? <div>{formik.errors.lastName}</div> : null}
+
       <label htmlFor="email">Email Address</label>
       <input
         id="email"
@@ -50,6 +80,11 @@ const SignupForm1 = () => {
         placeholder="StevenSeagal@gmail.com"
       />
       <br/><br/>
+      {formik.errors.email ? <div>{formik.errors.email}</div> : null}
+      if (formik.errors.email) {
+        console.log('formik.errors.email---',formik.errors.email) 
+      }
+      
       <button type="submit">Submit</button>
     </form>
   );
