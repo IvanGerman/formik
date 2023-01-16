@@ -37,6 +37,9 @@ const SignupForm1 = () => {
       firstName: '',
       lastName: '',
       email: '',
+      password: '',
+      productType: '',
+      acceptedTerms: false,
     },
     //validate,
     validationSchema: Yup.object({
@@ -47,10 +50,23 @@ const SignupForm1 = () => {
         .max(20, 'Must be 20 characters or less')
         .required('Required'),
       email: Yup.string().email('Invalid email address').required('Required'),
+      password: Yup.string()
+        .min(8, 'Must be 8 characters or more')
+        .required('Required'),
+        productType: Yup.string()
+        .oneOf(
+          ['book', 'video', 'PDF-book', 'audio-book'],
+          'Invalid Product Type'
+          )
+        .required('Required'),
+      acceptedTerms: Yup.boolean()
+        .required('Required')
+        .oneOf([true], 'You must accept the terms and conditions.'),
     }),
     onSubmit: values => {
       console.log('form values----',values);
-      alert(JSON.stringify(values, null, 2));
+      //alert(JSON.stringify(values, null, 2));
+      //setSubmitting(false);
     },
   });
   return (
@@ -94,7 +110,51 @@ const SignupForm1 = () => {
       />
       <br/><br/>
       {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
+
+      <label htmlFor="password">Password</label>
+      <input
+        id="password"
+        name="password"
+        type="text"
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values.password}
+        placeholder="xxxxxxxx"
+      />
+      <br/><br/>
+      {formik.touched.password && formik.errors.password ? <div>{formik.errors.password}</div> : null}
+
+      <label htmlFor="productType">Product Type</label>
+      <select
+        id="productType"
+        name="productType"
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values.productType}
+      >
+        <option value="">Select Product Type</option>
+        <option value="book">book</option>
+        <option value="video">video</option>
+        <option value="PDF-book">PDF-book</option>
+        <option value="audio-book">audio-book</option>
+      </select>
       
+      <br/><br/>
+      {formik.touched.productType && formik.errors.productType ? <div>{formik.errors.productType}</div> : null}
+
+      <input
+        id="acceptedTerms"
+        name="acceptedTerms"
+        type="checkbox"
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values.acceptedTerms}
+      />
+      <label htmlFor="acceptedTerms">I accept the terms and conditions</label>
+      <br/><br/>
+      {formik.touched.acceptedTerms && formik.errors.acceptedTerms ? <div>{formik.errors.acceptedTerms}</div> : null}
+
+
       <button type="submit">Submit</button>
       <br/><br/>
       <hr/>
